@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { signIn, signInSocial, signUp } from "@/lib/actions/auth-actions";
 
 export default function AuthClientPage() {
@@ -22,8 +22,6 @@ export default function AuthClientPage() {
 
     try {
       await signInSocial(provider);
-
-      console.log("Logged in with", provider);
     } catch (err) {
       setError(
         `Error authenticating with ${provider}: ${
@@ -46,13 +44,11 @@ export default function AuthClientPage() {
         if (!result.user) {
           setError("Invalid email or password");
         }
-        console.log("Signed in");
       } else {
         const result = await signUp(email, password, name);
         if (!result.user) {
           setError("Failed to create account");
         }
-        console.log("Signed up");
       }
     } catch (err) {
       setError(
@@ -64,6 +60,10 @@ export default function AuthClientPage() {
       setIsLoading(false);
     }
   };
+
+  // if (isSignIn) {
+  //   redirect("/dashboard");
+  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">

@@ -31,7 +31,6 @@ export const signIn = async (email: string, password: string) => {
 
 export const signOut = async () => {
   const result = await auth.api.signOut({ headers: await headers() });
-  console.log("result: ", result);
   return result;
 };
 
